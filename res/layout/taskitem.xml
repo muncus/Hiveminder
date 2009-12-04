@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+    <TextView android:id="@+id/tasktext"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="no subject"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        />
+</LinearLayout>
+

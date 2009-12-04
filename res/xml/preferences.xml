@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:key="prefs" > 
+    <CheckBoxPreference android:key="use_ssl" 
+      android:title="Use SSL?"
+      android:defaultValue="false"
+      android:summary="use SSL encryption (Requires Hiveminder PRO)" />  
+    <!--
+    <CheckBoxPreference android:key="bd_tags_box" 
+      android:title="show Braindump Tags box"
+      android:defaultValue="false"
+      android:summary="show a &quot;tags for all items&quot; box in braindump UI" />  
+    -->
+</PreferenceScreen>
+

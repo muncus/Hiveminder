@@ -1,0 +1,8 @@
+* add error message to HmResponse
+
+* tests for xml parser.
+    * decent tests for success and failure for each action i use.
+* TaskView/TaskEdit
+* preferences
+    ** use ssl (requires pro)
+    ** tasks per page?

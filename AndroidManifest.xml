@@ -1,0 +1,47 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.nerdcircus.android.hiveminder"
+    android:versionCode="3"
+    android:versionName="0.3">
+    <uses-sdk android:minSdkVersion="2" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application android:icon="@drawable/bee">
+        <activity android:name="Login" android:label="Hiveminder Login">
+            <intent-filter>
+                <action android:name="org.nerdcircus.android.hiveminder.LOGIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!-- stuff needed to make login appear in launcher.
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                -->
+            </intent-filter>
+        </activity>
+        <activity android:name="Braindump" android:label="Braindump">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="Preferences" android:label="Preferences">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- tasklist is still broken. :(
+        <activity android:name="TaskList" android:label="HM TaskList">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        -->
+        <!--
+        <activity android:name="Test" android:label="test">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        -->
+    </application>
+</manifest> 
