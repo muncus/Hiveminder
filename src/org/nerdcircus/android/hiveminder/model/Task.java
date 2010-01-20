@@ -11,5 +11,8 @@ public class Task {
     public long id; //task ID.
     public String summary; 
 
+    public String getSummary(){
+        return summary;
+    }
 }
 

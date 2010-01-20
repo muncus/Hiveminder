@@ -27,14 +27,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!-- tasklist is still broken. :(
-        <activity android:name="TaskList" android:label="HM TaskList">
+        <activity android:name="TaskListActivity" android:label="HM TaskList">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        -->
         <!--
         <activity android:name="Test" android:label="test">
             <intent-filter>

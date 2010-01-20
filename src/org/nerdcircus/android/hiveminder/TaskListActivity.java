@@ -13,9 +13,12 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.Toast;
+import android.util.Log;
 
 import java.lang.Runnable;
 import java.util.List;
@@ -25,31 +28,45 @@ import java.io.IOException;
 
 import org.nerdcircus.android.hiveminder.HmClient;
 import org.nerdcircus.android.hiveminder.model.HmResponse;
+import org.nerdcircus.android.hiveminder.model.Task;
+import org.nerdcircus.android.hiveminder.HmAuthException;
 import org.nerdcircus.android.hiveminder.ProgressDialogHandler;
-class TaskListActivity extends ListActivity {
+
+public class TaskListActivity extends ListActivity {
+    private String TAG = "TaskListActivity";
+
     public static int DIALOG_PROGRESS = 1;
 
     private HmClient mHivemind;
+    private Handler mHandler;
 
-    public onCreate(Bundle icicle){
+    public void onCreate(Bundle icicle){
         super.onCreate(icicle);
-        setHandler(new ProgressDialogHandler(this));
+        setHandler((Handler)new ProgressDialogHandler(this));
 
         if (getLastNonConfigurationInstance() != null){
             Log.d(TAG, "re-using saved hivemind!");
             mHivemind = (HmClient)getLastNonConfigurationInstance();
-            mHivemind.setActivity(this);
+            mHivemind.setUiHandler(getHandler());
         }
         else {
             //no saved instance. make a fresh one.
             Log.d(TAG, "no saved hivemind. making a new one");
             mHivemind = new HmClient(this);
+            mHivemind.setUiHandler(getHandler());
             //use ssl, if prefs say so.
             //mHivemind.setSsl(getPreferences(Context.MODE_PRIVATE).getBoolean("use_ssl", false));
         }
 
         //XXX do a search, and show the results.
         showDialog(DIALOG_PROGRESS);
+        
+        try {
+            mHivemind.doSearchAsyncTask("klaxon");
+        }
+        catch (HmAuthException e){
+            Log.e(TAG, "not logged in. boooooo. :(");
+        }
 
         ListAdapter a = new ArrayAdapter(this, R.layout.taskitem, R.id.tasktext);
         setListAdapter(a);
@@ -58,6 +75,18 @@ class TaskListActivity extends ListActivity {
     @Override
     public Object onRetainNonConfigurationInstance(){
         return mHivemind;
+    }
+
+    // WebActivity interface methods.
+    public Handler setHandler(Handler h){
+        mHandler = h;
+        return mHandler;
+    }
+    public Handler getHandler(){
+        return mHandler;
+    }
+    public boolean sendUiMessage(Message m){
+        return this.getHandler().sendMessage(m);
     }
 
     /* Dialog-related functions
@@ -79,6 +108,11 @@ class TaskListActivity extends ListActivity {
 
     // update listactivity with the list of tasks from r.
     public void showSearchResults(HmResponse r){
+        Log.d(TAG, "Showing search results...");
+        ArrayAdapter a = (ArrayAdapter)getListAdapter();
+        a.clear();
+        for (Task t : r.getTasks() )
+            a.add(t.summary);
     }
 
 }

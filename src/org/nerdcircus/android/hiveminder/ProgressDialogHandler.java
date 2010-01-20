@@ -35,15 +35,15 @@ public class ProgressDialogHandler extends Handler
     public static int WHAT_SHOW_RESULT_DIALOG = 3;
     public static int WHAT_SHOW_LOGIN = 4;
     //for search
-    public static in WHAT_SEARCH_COMPLETE = 5;
+    public static int WHAT_SEARCH_COMPLETE = 5;
 
     //dialog ids.
     public static int DIALOG_PROGRESS = 1;
 
     //members.
-    private Braindump mActivity;
+    private Activity mActivity;
 
-    public ProgressDialogHandler(Braindump a){
+    public ProgressDialogHandler(Activity a){
         mActivity = a;
     }
 
@@ -62,7 +62,7 @@ public class ProgressDialogHandler extends Handler
             HmResponse r = (HmResponse)m.obj;
             Toast.makeText(mActivity, r.getMessage(), Toast.LENGTH_LONG).show();
             if(r.getSuccess()){
-                mActivity.clearTextField();
+                ((Braindump)mActivity).clearTextField();
             }
         }
         else if(m.what == WHAT_SHOW_LOGIN){
@@ -72,7 +72,7 @@ public class ProgressDialogHandler extends Handler
         }
         else if(m.what == WHAT_SEARCH_COMPLETE){
             Log.d(TAG, "search done. update ui.");
-            mActivity.showSearchResults((HmResponse)m.obj);
+            ((TaskListActivity)mActivity).showSearchResults((HmResponse)m.obj);
         }
     }
 }

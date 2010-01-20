@@ -45,7 +45,7 @@ public class HmResponse {
     }
 
     //responses usually have an associated list of tasks...
-    public List getTasks(){
+    public List<Task> getTasks(){
         return this.mTaskList;
     }
     public boolean addTask(Task t){
