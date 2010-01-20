@@ -22,7 +22,7 @@ import android.R.drawable;
 
 import android.util.Log;
 
-public class Login extends WebActivity
+public class Login extends Activity implements WebActivity
 {
     private String TAG = "Login";
 

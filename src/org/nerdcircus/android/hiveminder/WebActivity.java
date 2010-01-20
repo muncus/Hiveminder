@@ -31,15 +31,9 @@ import android.util.Log;
  * It acts as a "View" in the Model-View-Controller since (not to be confused
  * with android's View classes.
  */
-public abstract class WebActivity extends Activity
+public interface WebActivity
 {
     public abstract Handler getHandler();
     public abstract Handler setHandler(Handler h);
-
-    /** associate the supplied "controller" with this "view"
-     */
-    public void setController(HmClient wac){
-        wac.setActivity(this);
-    }
 
 }

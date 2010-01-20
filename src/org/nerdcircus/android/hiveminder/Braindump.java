@@ -32,7 +32,7 @@ import org.nerdcircus.android.hiveminder.ProgressDialogHandler;
 
 import android.util.Log;
 
-public class Braindump extends WebActivity
+public class Braindump extends Activity implements WebActivity
 {
     private String BROWSER_TODO_URL = "http://hiveminder.com/mobile/list/not/complete/owner/me/starts/before/tomorrow/accepted/but_first/nothing";
     private String TAG = "Braindump";
@@ -68,12 +68,13 @@ public class Braindump extends WebActivity
         if (getLastNonConfigurationInstance() != null){
             Log.d(TAG, "re-using saved hivemind!");
             mHivemind = (HmClient)getLastNonConfigurationInstance();
-            mHivemind.setActivity(this);
+            mHivemind.setUiHandler(this.getHandler());
         }
         else {
             //no saved instance. make a fresh one.
             Log.d(TAG, "no saved hivemind. making a new one");
             mHivemind = new HmClient(this);
+            mHivemind.setUiHandler(this.getHandler());
             //use ssl, if prefs say so.
             mHivemind.setSsl(getPreferences(Context.MODE_PRIVATE).getBoolean("use_ssl", false));
         }

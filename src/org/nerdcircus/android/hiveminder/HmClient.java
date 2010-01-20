@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
+import android.os.Handler;
 
 import android.util.Log;
 import java.util.Map;
@@ -39,7 +40,7 @@ import org.apache.http.HttpVersion;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.StringBody;
 
-public class HmClient extends WebActivityController {
+public class HmClient implements WebActivityController {
 
     //AsyncTask subclass for braindump.
     private class BraindumpTask extends AsyncTask<String, Void, HmResponse>{
@@ -89,8 +90,8 @@ public class HmClient extends WebActivityController {
         protected HmResponse doInBackground(String... t){
             try {
                 MultipartEntity post_data = new MultipartEntity();
-                post_data.addPart("tokens", new StringBody(t[0]));
-                return doAction("QuickSearch", post_data);
+                post_data.addPart("query", new StringBody(t[0]));
+                return doAction("TaskSearch", post_data);
             }
             catch (UnsupportedEncodingException e) {
                 Log.d(TAG, e.toString());
@@ -148,10 +149,10 @@ public class HmClient extends WebActivityController {
 
     //Keep a reference to our controlling activity
     private WebActivity mActivity;
+    private Handler mHandler;
 
-    public HmClient(WebActivity activity){
+    public HmClient(Activity activity){
         mPrefs = activity.getSharedPreferences("auth", Context.MODE_PRIVATE);
-        setActivity(activity);
         mHttpClient = new DefaultHttpClient();
 
         if( ! mPrefs.getString("auth_cookie", "").equals("")){
@@ -166,6 +167,12 @@ public class HmClient extends WebActivityController {
     }
     public WebActivity getActivity(){
         return this.mActivity;
+    }
+    public void setUiHandler(Handler a){
+        this.mHandler = a;
+    }
+    public Handler getUiHandler(){
+        return this.mHandler;
     }
 
     protected void reloadSidCookie(){
@@ -228,6 +235,11 @@ public class HmClient extends WebActivityController {
     // Call our AsyncTask subclass to do all the real work here.
     public HmResponse doBraindumpAsyncTask(String text) throws HmAuthException {
         new BraindumpTask().execute(text);
+        return null;
+    }
+
+    public HmResponse doSearchAsyncTask(String text) throws HmAuthException {
+        new TaskSearchTask().execute(text);
         return null;
     }
 
@@ -319,6 +331,14 @@ public class HmClient extends WebActivityController {
         }
         return null;
     }
+
+
+    /* Send a message to the Ui thread, via the activity's handler.
+     *      */
+    public boolean sendUiMessage(Message m){
+        return this.getUiHandler().sendMessage(m);
+    }
+
 
 }
 
