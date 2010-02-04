@@ -17,11 +17,11 @@ public class TaskAdapter extends ArrayAdapter
     private String TAG = "TaskAdapter";
 
     public TaskAdapter(Context context, int layout){
-        super(context, layout, R.id.tasktext);
+        super(context, layout, R.id.checkbox);
     }
 
     public void bindView(View view, Context context, Task task){
-        TextView desc = (TextView) view.findViewById(R.id.tasktext);
+        TextView desc = (TextView) view.findViewById(R.id.checkbox);
         desc.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         desc.setText(task.getSummary());
     }

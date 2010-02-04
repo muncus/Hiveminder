@@ -6,3 +6,6 @@
 * preferences
     ** use ssl (requires pro)
     ** tasks per page?
+
+    *show completed tasks in search
+    * handle search intents.
