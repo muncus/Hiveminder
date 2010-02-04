@@ -1,4 +1,4 @@
-/** Task List Activity - showsa listview of tasks
+/** Task List Activity - shows a listview of tasks
 */
 package org.nerdcircus.android.hiveminder;
 
@@ -68,7 +68,9 @@ public class TaskListActivity extends ListActivity {
             Log.e(TAG, "not logged in. boooooo. :(");
         }
 
-        ListAdapter a = new ArrayAdapter(this, R.layout.taskitem, R.id.tasktext);
+        //ListAdapter a = new ArrayAdapter(this, R.layout.taskitem, R.id.tasktext);
+        //setListAdapter(a);
+        ListAdapter a = new TaskAdapter(this, R.layout.taskitem);
         setListAdapter(a);
     }
 

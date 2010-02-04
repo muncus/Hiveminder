@@ -6,10 +6,10 @@ import android.util.Log;
  * designed to be instantiated from an xml pull parser.
  */
 public class Task {
-    private String TAG = "Task";
 
     public long id; //task ID.
     public String summary; 
+    public boolean completed;
 
     public String getSummary(){
         return summary;

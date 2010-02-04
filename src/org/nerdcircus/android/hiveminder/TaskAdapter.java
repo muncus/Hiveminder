@@ -16,8 +16,8 @@ public class TaskAdapter extends ArrayAdapter
 {
     private String TAG = "TaskAdapter";
 
-    public TaskAdapter(Context context, int layout, Task[] tasks){
-        super(context, layout, tasks);
+    public TaskAdapter(Context context, int layout){
+        super(context, layout, R.id.tasktext);
     }
 
     public void bindView(View view, Context context, Task task){
