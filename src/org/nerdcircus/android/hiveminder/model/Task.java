@@ -9,7 +9,7 @@ public class Task {
 
     public long id; //task ID.
     public String summary; 
-    public boolean completed;
+    public boolean complete;
 
     public String getSummary(){
         return summary;

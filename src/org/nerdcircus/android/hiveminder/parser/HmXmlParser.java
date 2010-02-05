@@ -24,6 +24,8 @@ public class HmXmlParser {
 
     public XmlPullParser xpp;
 
+    public boolean DEBUG = false;
+
     public HmXmlParser() throws HmParseException {
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -72,12 +74,14 @@ public class HmXmlParser {
             HmResponse r = new HmResponse();
             int eventType = xpp.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
-                if(eventType == XmlPullParser.START_DOCUMENT) {
+                if(eventType == XmlPullParser.START_DOCUMENT && DEBUG) {
                    Log.d(TAG, "Start document");
-                } else if(eventType == XmlPullParser.END_DOCUMENT) {
+                } else if(eventType == XmlPullParser.END_DOCUMENT && DEBUG) {
                     Log.d(TAG, "End document");
                 } else if(eventType == XmlPullParser.START_TAG) {
-                    Log.d(TAG, "Start tag "+xpp.getName());
+                    if(DEBUG){
+                        Log.d(TAG, "Start tag "+xpp.getName());
+                    }
                     if( "html".equals(xpp.getName())){
                         //This is not the page we're looking for...
                         throw new HmAuthException();
@@ -107,10 +111,12 @@ public class HmXmlParser {
                         xpp.next();
                         r.setSuccess("1".equals(xpp.getText()));
                     }
-                } else if(eventType == XmlPullParser.END_TAG) {
+                } else if(eventType == XmlPullParser.END_TAG && DEBUG) {
                     Log.d(TAG, "End tag "+xpp.getName());
                 } else if(eventType == XmlPullParser.TEXT) {
-                    Log.d(TAG, "Text "+xpp.getText());
+                    if(DEBUG){
+                        Log.d(TAG, "Text "+xpp.getText());
+                    }
                     if("403 Forbidden".equals(xpp.getText())){
                         Log.d(TAG, "not logged in. excepting.");
                         throw new HmAuthException();
@@ -144,7 +150,9 @@ public class HmXmlParser {
             }
             String tag = xpp.getName();
             if(eventType == XmlPullParser.START_TAG){
-                Log.d(TAG, "start: " + xpp.getName());
+                if(DEBUG){
+                    Log.d(TAG, "start: " + xpp.getName());
+                }
                 //TODO: replace raw accesses with setters.
                 if("id".equals(xpp.getName())){
                     Log.d(TAG, "found id tag");
@@ -156,22 +164,33 @@ public class HmXmlParser {
                     xpp.next(); //skip to the text
                     t.summary = xpp.getText();
                 }
+                if("complete".equals(xpp.getName())){
+                    Log.d(TAG, "found complete tag");
+                    xpp.next(); //skip to the text
+                    if("1".equals(xpp.getText())){
+                        Log.d(TAG, "complete is true!");
+                        t.complete = true;
+                    }
+                    else { t.complete = false; }
+                }
             }
-            else if(eventType == XmlPullParser.START_DOCUMENT){
+            else if(eventType == XmlPullParser.START_DOCUMENT && DEBUG){
                 Log.d(TAG, "start doc: " + xpp.getName());
             }
-            else if(eventType == XmlPullParser.END_DOCUMENT){
+            else if(eventType == XmlPullParser.END_DOCUMENT && DEBUG){
                 Log.d(TAG, "end doc: " + xpp.getName());
             }
-            else if(eventType == XmlPullParser.TEXT){
+            else if(eventType == XmlPullParser.TEXT && DEBUG){
                 Log.d(TAG, "text: " + xpp.getText());
             }
-            else if(eventType == XmlPullParser.END_TAG){
+            else if(eventType == XmlPullParser.END_TAG && DEBUG){
                 Log.d(TAG, "end: " + xpp.getName());
             }
             else {
                 //not a start tag..
-                Log.d(TAG, "not start: " + xpp.getName());
+                if(DEBUG){
+                    Log.d(TAG, "not start: " + xpp.getName());
+                }
             }
             eventType = xpp.next();
         }
