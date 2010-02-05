@@ -68,9 +68,7 @@ public class TaskListActivity extends ListActivity {
             Log.e(TAG, "not logged in. boooooo. :(");
         }
 
-        //ListAdapter a = new ArrayAdapter(this, R.layout.taskitem, R.id.tasktext);
-        //setListAdapter(a);
-        ListAdapter a = new TaskAdapter(this, R.layout.taskitem);
+        TaskAdapter a = new TaskAdapter(this, R.layout.taskitem);
         setListAdapter(a);
     }
 
@@ -111,10 +109,10 @@ public class TaskListActivity extends ListActivity {
     // update listactivity with the list of tasks from r.
     public void showSearchResults(HmResponse r){
         Log.d(TAG, "Showing search results...");
-        ArrayAdapter a = (ArrayAdapter)getListAdapter();
+        TaskAdapter a = (TaskAdapter)getListAdapter();
         a.clear();
         for (Task t : r.getTasks() )
-            a.add(t.summary);
+            a.add(t);
     }
 
 }
