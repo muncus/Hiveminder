@@ -19,6 +19,7 @@ import java.util.Map;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.io.InputStream;
 
 
 import org.apache.http.StatusLine;
@@ -88,6 +89,7 @@ public class HmClient implements WebActivityController {
     //TODO: should be generic. - is that possible?
     private class TaskSearchTask extends AsyncTask<String, Void, HmResponse>{
         protected HmResponse doInBackground(String... t){
+            Log.d(TAG, "searching for: " + t[0]);
             try {
                 MultipartEntity post_data = new MultipartEntity();
                 post_data.addPart("query", new StringBody(t[0]));
@@ -264,7 +266,12 @@ public class HmClient implements WebActivityController {
             saveSidCookie();
             Log.d(TAG, "passing to parser..");
             // do a "lazy" parse if fast_parse is set to true.
-            HmResponse r = new HmXmlParser(resp.getEntity().getContent()).parse(fast_parse);
+            InputStream instream = resp.getEntity().getContent();
+            HmResponse r = new HmXmlParser(instream).parse(fast_parse);
+            instream.close();
+            resp.getEntity().consumeContent(); //enable reuse of this connection.
+            p.abort(); //XXX: how about now!?
+
             Log.d(TAG, "done");
             if(r.getSuccess()){
                 Log.d(TAG, "Success!");

@@ -5,6 +5,8 @@
     <uses-sdk android:minSdkVersion="2" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <application android:icon="@drawable/bee">
+        <meta-data android:name="android.app.default_searchable"
+            android:value=".TaskListActivity" />
         <activity android:name="Login" android:label="Hiveminder Login">
             <intent-filter>
                 <action android:name="org.nerdcircus.android.hiveminder.LOGIN" />
@@ -29,9 +31,15 @@
         </activity>
         <activity android:name="TaskListActivity" android:label="HM TaskList">
             <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+                <meta-data android:name="android.app.searchable" 
+                    android:resource="@xml/searchable" />
         </activity>
         <!--
         <activity android:name="Test" android:label="test">

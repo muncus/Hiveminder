@@ -163,6 +163,7 @@ public class HmXmlParser {
                     Log.d(TAG, "found summary tag");
                     xpp.next(); //skip to the text
                     t.summary = xpp.getText();
+                    Log.d(TAG, "Task: " + t.summary);
                 }
                 if("complete".equals(xpp.getName())){
                     Log.d(TAG, "found complete tag");

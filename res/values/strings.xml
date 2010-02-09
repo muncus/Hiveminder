@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TaskList</string>
+    <string name="search_label">HM search</string>
+    <string name="search_hint">search tasks</string>
 </resources>

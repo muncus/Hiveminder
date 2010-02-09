@@ -13,12 +13,14 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.KeyEvent;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 import android.util.Log;
+import android.app.SearchManager;
 
 import java.lang.Runnable;
 import java.util.List;
@@ -58,6 +60,24 @@ public class TaskListActivity extends ListActivity {
             //mHivemind.setSsl(getPreferences(Context.MODE_PRIVATE).getBoolean("use_ssl", false));
         }
 
+        final Intent queryIntent = getIntent();
+        final String queryAction = queryIntent.getAction();
+        if (Intent.ACTION_SEARCH.equals(queryAction)) {
+            Log.d(TAG, "oncreate received search intent");
+            showDialog(DIALOG_PROGRESS);
+            String query = queryIntent.getStringExtra(SearchManager.QUERY);
+            try {
+                mHivemind.doSearchAsyncTask(query);
+            }
+            catch (HmAuthException e){
+                Log.e(TAG, "not logged in. boooooo. :(");
+            }
+        }
+
+        TaskAdapter a = new TaskAdapter(this, R.layout.taskitem);
+        setListAdapter(a);
+
+        /*
         //XXX do a search, and show the results.
         showDialog(DIALOG_PROGRESS);
         
@@ -67,9 +87,8 @@ public class TaskListActivity extends ListActivity {
         catch (HmAuthException e){
             Log.e(TAG, "not logged in. boooooo. :(");
         }
+        */
 
-        TaskAdapter a = new TaskAdapter(this, R.layout.taskitem);
-        setListAdapter(a);
     }
 
     @Override
@@ -114,5 +133,31 @@ public class TaskListActivity extends ListActivity {
         for (Task t : r.getTasks() )
             a.add(t);
     }
+    
+    //attempt to make search work.
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            return onSearchRequested();
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 
+    @Override
+    public void onNewIntent(Intent intent) {
+        Log.d(TAG, "New Intent: " + intent);
+        String action = intent.getAction();
+        String query = intent.getStringExtra(SearchManager.QUERY);
+
+        if (Intent.ACTION_SEARCH.equals(action) && query != null) {
+            Log.d(TAG, "onNewIntent received search intent and saving.");
+            showDialog(DIALOG_PROGRESS);
+            try {
+                mHivemind.doSearchAsyncTask(query);
+            }
+            catch (HmAuthException e){
+                Log.e(TAG, "not logged in. boooooo. :(");
+            }
+        }
+    }
 }
