@@ -33,12 +33,8 @@ public class TaskAdapter extends ArrayAdapter<Task>
         View v = convertView;
         if(v == null){
             v = mInflater.inflate(R.layout.taskitem, null);
-            Log.d(TAG, v.toString());
         }
         Task task = this.getItem(position);
-        Log.d(TAG, task.getSummary());
-        Log.d(TAG, v.toString());
-
         
         CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
         cb.setText(task.getSummary());
