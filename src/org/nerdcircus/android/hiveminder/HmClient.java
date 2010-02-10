@@ -93,6 +93,10 @@ public class HmClient implements WebActivityController {
             try {
                 MultipartEntity post_data = new MultipartEntity();
                 post_data.addPart("query", new StringBody(t[0]));
+                if( ! mPrefs.getBoolean("show_completed_tasks", false)){
+                    Log.d(TAG, "excluding completed tasks");
+                    post_data.addPart("complete_not", new StringBody("1"));
+                }
                 return doAction("TaskSearch", post_data);
             }
             catch (UnsupportedEncodingException e) {

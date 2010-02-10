@@ -13,5 +13,10 @@
       android:defaultValue="false"
       android:summary="show a &quot;tags for all items&quot; box in braindump UI" />  
     -->
+    <CheckBoxPreference android:key="show_completed_tasks"
+        android:title="Show Completed Tasks"
+        android:summary="show completed tasks when searching"
+        android:defaultValue="false"
+        />
 </PreferenceScreen>
 
