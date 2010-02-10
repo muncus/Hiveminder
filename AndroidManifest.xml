@@ -11,10 +11,6 @@
             <intent-filter>
                 <action android:name="org.nerdcircus.android.hiveminder.LOGIN" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <!-- stuff needed to make login appear in launcher.
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                -->
             </intent-filter>
         </activity>
         <activity android:name="Braindump" android:label="Braindump">
@@ -38,22 +34,8 @@
                 <action android:name="org.nerdcircus.android.hiveminder.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <!-- DEBUG only - tasklist no longer needs to appear in the launcher
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-                <meta-data android:name="android.app.searchable" 
-                    android:resource="@xml/searchable" />
+            <meta-data android:name="android.app.searchable" 
+                android:resource="@xml/searchable" />
         </activity>
-        <!--
-        <activity android:name="Test" android:label="test">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
     </application>
 </manifest> 
