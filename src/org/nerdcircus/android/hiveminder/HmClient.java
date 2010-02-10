@@ -85,7 +85,6 @@ public class HmClient implements WebActivityController {
 
     //AsyncTask subclass for TaskSearch.
     //TODO: this class name sucks.
-    //FIXME: action name is wrong here.
     //TODO: should be generic. - is that possible?
     private class TaskSearchTask extends AsyncTask<String, Void, HmResponse>{
 
