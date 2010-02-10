@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.nerdcircus.android.hiveminder"
-    android:versionCode="3"
-    android:versionName="0.3">
-    <uses-sdk android:minSdkVersion="2" />
+    android:versionCode="5"
+    android:versionName="0.5">
+    <uses-sdk android:minSdkVersion="4" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <application android:icon="@drawable/bee">
         <meta-data android:name="android.app.default_searchable"
