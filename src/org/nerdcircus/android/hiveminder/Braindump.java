@@ -3,6 +3,7 @@ package org.nerdcircus.android.hiveminder;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -194,7 +195,8 @@ public class Braindump extends Activity implements WebActivity
 
     //Show a little menu, with a link to hiveminder.com/todo
     public boolean onCreateOptionsMenu(Menu menu){
-        Intent hmlistIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(BROWSER_TODO_URL));
+        Intent hmlistIntent = new Intent("org.nerdcircus.android.hiveminder.SEARCH");
+        hmlistIntent.putExtra(SearchManager.QUERY, ""); //XXX: trick, to get a null search.
         menu.add("Show ToDo List").setIntent(hmlistIntent);
 
         MenuItem mi = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, "Preferences");

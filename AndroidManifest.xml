@@ -34,6 +34,10 @@
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="org.nerdcircus.android.hiveminder.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <!-- DEBUG only - tasklist no longer needs to appear in the launcher
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

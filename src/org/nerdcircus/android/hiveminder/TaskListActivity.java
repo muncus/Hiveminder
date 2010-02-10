@@ -62,7 +62,9 @@ public class TaskListActivity extends ListActivity {
 
         final Intent queryIntent = getIntent();
         final String queryAction = queryIntent.getAction();
-        if (Intent.ACTION_SEARCH.equals(queryAction)) {
+        if (Intent.ACTION_SEARCH.equals(queryAction)
+            || "org.nerdcircus.android.hiveminder.SEARCH".equals(queryAction)) {
+
             Log.d(TAG, "oncreate received search intent");
             showDialog(DIALOG_PROGRESS);
             String query = queryIntent.getStringExtra(SearchManager.QUERY);

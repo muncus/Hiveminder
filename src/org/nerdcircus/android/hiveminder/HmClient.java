@@ -88,16 +88,28 @@ public class HmClient implements WebActivityController {
     //FIXME: action name is wrong here.
     //TODO: should be generic. - is that possible?
     private class TaskSearchTask extends AsyncTask<String, Void, HmResponse>{
+
         protected HmResponse doInBackground(String... t){
             Log.d(TAG, "searching for: " + t[0]);
             try {
-                MultipartEntity post_data = new MultipartEntity();
-                post_data.addPart("query", new StringBody(t[0]));
-                if( ! mPrefs.getBoolean("show_completed_tasks", false)){
-                    Log.d(TAG, "excluding completed tasks");
-                    post_data.addPart("complete_not", new StringBody("1"));
+                if( "".equals(t[0]) ){
+                    MultipartEntity defaultSearch = new MultipartEntity();
+                    defaultSearch.addPart("complete_not", new StringBody("1"));
+                    defaultSearch.addPart("accepted", new StringBody("1"));
+                    defaultSearch.addPart("owner", new StringBody("me"));
+                    defaultSearch.addPart("starts_before", new StringBody("tomorrow"));
+                    defaultSearch.addPart("depends_on_count", new StringBody("0"));
+                    Log.d(TAG, "no search terms provided. using default values");
+                    return doAction("TaskSearch", defaultSearch);
+                } else {
+                    MultipartEntity post_data = new MultipartEntity();
+                    post_data.addPart("query", new StringBody(t[0]));
+                    if( ! mPrefs.getBoolean("show_completed_tasks", false)){
+                        Log.d(TAG, "excluding completed tasks");
+                        post_data.addPart("complete_not", new StringBody("1"));
+                    }
+                    return doAction("TaskSearch", post_data);
                 }
-                return doAction("TaskSearch", post_data);
             }
             catch (UnsupportedEncodingException e) {
                 Log.d(TAG, e.toString());
