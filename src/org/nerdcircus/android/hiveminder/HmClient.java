@@ -152,6 +152,59 @@ public class HmClient implements WebActivityController {
         }
     }
 
+    /* AsyncTask for completing a task */
+    private class CompleteTask extends AsyncTask<Integer, Void, HmResponse>{
+
+        protected HmResponse doInBackground(Integer... t){
+            Log.d(TAG, "completing task: " + t[0]);
+            try {
+                MultipartEntity post_data = new MultipartEntity();
+                post_data.addPart("id", new StringBody(t[0].toString()));
+                post_data.addPart("complete", new StringBody("1"));
+                return doAction("UpdateTask", post_data);
+            }
+            catch (UnsupportedEncodingException e) {
+                Log.d(TAG, e.toString());
+            }
+            catch (IOException e) {
+                Log.d(TAG, e.toString());
+            }
+            catch(HmAuthException e){
+                // not logged in. oops.
+                Log.d(TAG, e.toString());
+            }
+            return null;
+        }
+
+        protected void onPostExecute(HmResponse resp){
+            if( null == resp){
+                Log.d(TAG, "null response. should i launch login?");
+                //FIXME: there's a few ways we can end up here, but for now,
+                // assume we're not logged in.(maybe encapsulate exception in the response?)
+                
+                // Hide the dialog..
+                Message m = Message.obtain();
+                m.what = ProgressDialogHandler.WHAT_HIDE_PROGRESS;
+                sendUiMessage(m);
+                // and launch login..
+                m = Message.obtain();
+                m.what = ProgressDialogHandler.WHAT_SHOW_LOGIN;
+                sendUiMessage(m);
+                return;
+            }
+            if(resp.getSuccess()) Log.d(TAG, "marked as completed!");
+            // Hide the dialog..
+            Message m = Message.obtain();
+            m.what = ProgressDialogHandler.WHAT_HIDE_PROGRESS;
+            sendUiMessage(m);
+            // and toast.
+            m = Message.obtain();
+            m.what = ProgressDialogHandler.WHAT_SHOW_RESULT_DIALOG;
+            m.obj = resp;
+            sendUiMessage(m);
+        }
+    }
+
     private String TAG = "HmClient";
     public boolean DEBUG = true;
 
