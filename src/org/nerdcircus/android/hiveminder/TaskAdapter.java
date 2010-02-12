@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 
 import android.util.Log;
@@ -20,6 +21,18 @@ import org.nerdcircus.android.hiveminder.model.Task;
 
 public class TaskAdapter extends ArrayAdapter<Task>
 {
+    private class CompleteListener implements CompoundButton.OnCheckedChangeListener {
+        public void onCheckedChanged(CompoundButton checkbox, boolean isChecked){
+            if(isChecked){
+                //mark this task as completed
+                Log.d(TAG, "attempting to complete: "+checkbox.getTag());
+            }
+            else {
+                Log.d(TAG, "um, i dont know how to un-complete stuff yet.");
+            }
+        }
+    }
+
     private String TAG = "TaskAdapter";
     private LayoutInflater mInflater;
 
@@ -39,6 +52,8 @@ public class TaskAdapter extends ArrayAdapter<Task>
         CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
         cb.setText(task.getSummary());
         cb.setChecked(task.complete);
+        cb.setTag(new Long(task.id)); //embed the task id into the view, so callbacks have access to it.
+        cb.setOnCheckedChangeListener(new CompleteListener());
 
         return v;
     }

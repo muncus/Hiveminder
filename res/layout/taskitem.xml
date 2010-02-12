@@ -9,8 +9,6 @@
         android:layout_height="fill_parent"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:clickable="false"
-        android:checkable="false"
         />
 </LinearLayout>
 
