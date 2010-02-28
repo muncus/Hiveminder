@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TaskList</string>
+    <string name="app_name">Braindump</string>
     <string name="search_label">HM search</string>
     <string name="search_hint">search tasks</string>
+    <string name="braindump_hint">go ahead, braindump!</string>
+    <string name="username_hint">email address</string>
+    <string name="password_hint">password</string>
+    <string name="login">Log in</string>
 </resources>
