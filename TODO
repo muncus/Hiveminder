@@ -4,8 +4,7 @@
     * decent tests for success and failure for each action i use.
 * TaskView/TaskEdit
 * preferences
-    ** use ssl (requires pro)
-    ** tasks per page?
-
     *show completed tasks in search
-    * handle search intents.
+
+* logout pref
+* "startup activity" choice. list or braindump
