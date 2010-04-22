@@ -268,6 +268,12 @@ public class HmClient implements WebActivityController {
             }
         }
     }
+    // remove saved cookie. clear it from client.
+    // used from Preferences (for logout)
+    public void clearSidCookie(){
+        this.setSidCookie("");
+        mPrefs.edit().putString("auth_cookie", "").commit();
+    }
 
     public void setSsl(boolean ssl){
         if(ssl){
