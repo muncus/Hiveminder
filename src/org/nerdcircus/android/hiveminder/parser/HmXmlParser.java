@@ -21,10 +21,10 @@ import org.nerdcircus.android.hiveminder.model.HmResponse;
 public class HmXmlParser {
 
     public static String TAG = "HmXmlParser";
+    public static boolean DEBUG = false;
 
     public XmlPullParser xpp;
 
-    public boolean DEBUG = false;
 
     public HmXmlParser() throws HmParseException {
         try {
@@ -118,15 +118,15 @@ public class HmXmlParser {
                         r.setMessage(xpp.getText());
                     }
                     if( "success".equals(xpp.getName()) ){
-                        DebugLogTAG, "found success");
+                        DebugLog(TAG, "found success");
                         xpp.next();
                         r.setSuccess("1".equals(xpp.getText()));
                     }
                     else {
-                        DebugLogTAG, "Tag i dont care about:" + xpp.getName());
+                        DebugLog(TAG, "Tag i dont care about:" + xpp.getName());
                     }
                 } else if(eventType == XmlPullParser.END_TAG ) {
-                    DebugLogTAG, "End tag "+xpp.getName());
+                    DebugLog(TAG, "End tag "+xpp.getName());
                 } else if(eventType == XmlPullParser.TEXT) {
                     DebugLog(TAG, "Text "+xpp.getText());
                     //NB: this doesnt appear to happen anymore
