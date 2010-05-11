@@ -18,6 +18,11 @@
         android:summary="show completed tasks when searching"
         android:defaultValue="false"
         />
+    <CheckBoxPreference android:key="debug_parser"
+        android:title="Debug Parser"
+        android:summary="log extra information about xml parsing. may affect performance slightly."
+        android:defaultValue="false"
+        />
     <Preference android:key="logout"
         android:title="Log out"
         android:summary="Log out. you will be asked for username/password on your next search/braindump"

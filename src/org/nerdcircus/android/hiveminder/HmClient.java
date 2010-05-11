@@ -32,6 +32,7 @@ import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.HeaderIterator;
 import org.apache.http.Header;
@@ -327,10 +328,15 @@ public class HmClient implements WebActivityController {
     }
 
     public HmResponse doAction(String action, MultipartEntity post_data, boolean fast_parse) throws HmAuthException {
+        //set debug for our parser.
+        if( mPrefs.getBoolean("debug_parser", false)){
+            HmXmlParser.DEBUG = true;
+        }
         try {
             String urlString = BASEURL + "/=/action/BTDT.Action." + action + ".xml";
             Log.d(TAG, "attempting to call: " + urlString);
             HttpPost p = new HttpPost(urlString);
+            p.getParams().setBooleanParameter(CoreProtocolPNames.USE_EXPECT_CONTINUE, false);
             p.setEntity(post_data);
             debugCookies();
             Log.d(TAG, "sending request");
@@ -338,13 +344,12 @@ public class HmClient implements WebActivityController {
             Log.d(TAG, "got response");
             debugCookies();
             saveSidCookie();
+            Log.d(TAG, resp.getStatusLine().toString()); //expectation failed?
             Log.d(TAG, "passing to parser..");
             // do a "lazy" parse if fast_parse is set to true.
             InputStream instream = resp.getEntity().getContent();
             HmResponse r = new HmXmlParser(instream).parse(fast_parse);
-            instream.close();
             resp.getEntity().consumeContent(); //enable reuse of this connection.
-            p.abort(); //XXX: how about now!?
 
             Log.d(TAG, "done");
             if(r.getSuccess()){
@@ -364,9 +369,28 @@ public class HmClient implements WebActivityController {
         return null;
     }
 
+    public HmResponse doLogin(String address, String password){
+        try {
+            MultipartEntity me = new MultipartEntity();
+            me.addPart("address", new StringBody(address));
+            me.addPart("password", new StringBody(password));
+            return doAction("Login", me, true);
+        }
+        catch (HmAuthException e){
+            //launch login?
+            Log.d(TAG, "auth failure on login? wtf?");
+        }
+        catch (UnsupportedEncodingException e){
+            //launch login?
+            Log.d(TAG, "encoding fail.");
+        }
+        return null;
+
+    }
+
     /** Log in, get session cookie.
      */
-    public HmResponse doLogin(String address, String password){
+    public HmResponse doOldLogin(String address, String password){
         try {
             /* This is madness.
              * the "regular" xml api doesnt do login properly, despite being a

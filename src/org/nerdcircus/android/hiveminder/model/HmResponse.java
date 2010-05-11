@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class HmResponse {
     private String TAG = "HmResponse";
+    private boolean success = false; //start null.
 
     private Bundle mBundle;
     private List mTaskList;
@@ -26,10 +27,10 @@ public class HmResponse {
     /* getters and setters for important fields */
 
     public void setSuccess(boolean status){
-        this.mBundle.putBoolean("success", status);
+        this.success = status;
     }
     public boolean getSuccess(){
-        return this.mBundle.getBoolean("success");
+        return this.success;
     }
     public void setAction(String ac){
         this.mBundle.putString("action_class", ac);
