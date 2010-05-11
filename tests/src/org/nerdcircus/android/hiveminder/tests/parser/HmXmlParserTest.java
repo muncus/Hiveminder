@@ -36,12 +36,12 @@ public class HmXmlParserTest extends TestCase{
     }
 
     public void testParseBraindump() throws HmAuthException, HmParseException, XmlPullParserException, IOException {
-        String task1 = "<data><content>"
+        String task1 = "<data>"
             + "<action_class>BTDT::Action::ParseTasksMagically</action_class>"
-            + "<created><id>1</id><summary>some content</summary></created>"
+            + "<content><created><id>1</id><summary>some content</summary></created></content>"
             + "<success>1</success>"
             + "<message>this is a message</message>"
-            + "</content><data>";
+            + "<data>";
         HmXmlParser x = new HmXmlParser(new StringReader(task1));
         assertNotNull(x);
 
